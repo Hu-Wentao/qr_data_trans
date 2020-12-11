@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 /// 输入文本 - 一次展示最长80字符
@@ -67,19 +68,29 @@ class QrGenView extends StatelessWidget {
         for (int i = 0; i < num; i++) {
           var start = i * 80;
           var end = (start + 80) > txt.length ? txt.length : (start + 80);
-          print('$start|$end');
+          // print('$start|$end');
           list.add(txt.substring(start, end));
         }
+        var _count = 1;
         return Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: list
-                  .map(
-                    (e) => Padding(
-                        padding: EdgeInsets.all(8), child: QrImage(data: e)),
-                  )
-                  .toList(),
+          child: PageView(
+            scrollDirection: Axis.horizontal,
+            controller: PageController(
+              initialPage: 0,
+              viewportFraction: 1,
             ),
+            physics: BouncingScrollPhysics(),
+            pageSnapping: true,
+            children: list
+                .map((e) => Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        QrImage(data: e),
+                        Text('${_count++} / ${list.length}'),
+                      ],
+                    )))
+                .toList(),
           ),
         );
       });
