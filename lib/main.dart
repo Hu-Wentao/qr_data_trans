@@ -8,6 +8,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 TextEditingController ctrl =
     TextEditingController.fromValue(TextEditingValue(text: ''));
 
+var pgCtrl = PageController(
+  initialPage: 0,
+  viewportFraction: 1,
+);
+
 StreamController<String> stm = StreamController<String>();
 
 void main() {
@@ -27,6 +32,20 @@ class MyApp extends StatelessWidget {
               icon: Icon(Icons.refresh),
               onPressed: () {
                 stm.add(ctrl.text);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.arrow_left_rounded),
+              onPressed: () {
+                var tar = pgCtrl.page.toInt() - 1;
+                if (tar >= 0) pgCtrl.jumpToPage(tar);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.arrow_right_rounded),
+              onPressed: () {
+                var tar = pgCtrl.page.toInt() + 1;
+                pgCtrl.jumpToPage(tar);
               },
             )
           ],
@@ -49,8 +68,8 @@ class InputTextView extends StatelessWidget {
   Widget build(BuildContext context) => Expanded(
       child: TextField(
           controller: ctrl,
-          maxLines: 100,
-          maxLength: 1000,
+          maxLines: 200,
+          maxLength: 2000,
           decoration: InputDecoration(
             border: OutlineInputBorder(),
           )));
@@ -75,10 +94,7 @@ class QrGenView extends StatelessWidget {
         return Expanded(
           child: PageView(
             scrollDirection: Axis.horizontal,
-            controller: PageController(
-              initialPage: 0,
-              viewportFraction: 1,
-            ),
+            controller: pgCtrl,
             physics: BouncingScrollPhysics(),
             pageSnapping: true,
             children: list
