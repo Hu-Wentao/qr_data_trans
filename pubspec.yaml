@@ -31,6 +31,8 @@ dependencies:
   # flutter_riverpod: 
   qr: 
   qr_flutter: 
+  filepicker_windows:
+  barcode_scanner:
 
 dev_dependencies:
   flutter_test:

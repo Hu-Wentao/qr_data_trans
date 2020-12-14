@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -26,7 +27,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('文本转二维码'),
+          leading: Builder(
+            builder: (c) => IconButton(
+              icon: Icon(Icons.photo),
+              onPressed: () {
+                var f = OpenFilePicker().getFile();
+
+                // FileDialog();
+                // showDialog(context: c, builder: (c) => FileDialog());
+              },
+            ),
+          ),
+          title: Text('文本 | 二维码'),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
